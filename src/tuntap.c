@@ -52,6 +52,8 @@ int tun_alloc(char *dev) {
 }
 
 /**
- * Questions to ANswer to Myself 
+ * Questions to Myself
+ * What is "ifreq"? Why are we using it?
+ * What is O_RDWR?
  * 
 */
