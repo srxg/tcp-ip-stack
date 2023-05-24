@@ -39,3 +39,4 @@ gain a comprehensive understanding of things, no gaps!)
     to the packet content.
   - SO `IFF_TAP | IFF_NO_PI` sets the device up as a TAP device which doesn't
     prepend the packet information to the packet content.
+

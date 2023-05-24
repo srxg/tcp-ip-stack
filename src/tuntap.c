@@ -13,7 +13,7 @@
  * (e.g. "tun%d") - apparently this can be any valid network
  * device name though?
  * 
- * Creates and configures a TUN/TAP DEvice 
+ * Creates and configures a TAP device.
 */
 int tun_alloc(char *dev) {
     struct ifreq interface_request; // interface request structure
