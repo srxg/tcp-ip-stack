@@ -13,11 +13,8 @@
  * (e.g. "tun%d") - apparently this can be any valid network
  * device name though?
  * 
- * Important to note: the character pointer gets overwritten with the real
- * device name. (e.g. "tun0")
- * 
+ * Creates and configures a TUN/TAP DEvice 
 */
-// TAP
 int tun_alloc(char *dev) {
     struct ifreq interface_request; // interface request structure
     int fd, err;
@@ -34,6 +31,9 @@ int tun_alloc(char *dev) {
     // IFF_TUN - TUN Device (no ethernet headers)
     // IFF_TAP - TAP Device
     // IFF_NO_PI - Do not provide packet information
+    // IFF_NO_PI is crucial - if we don't use it, we end up with
+    // unnecessary packet information prepended to the Eternet frame
+    
 
     interface_request.ifr_flags = IFF_TAP | IFF_NO_PI;
 
@@ -48,12 +48,15 @@ int tun_alloc(char *dev) {
 
     strcpy(dev, interface_request.ifr_name);
     return fd;
-    
 }
 
 /**
  * Questions to Myself
  * What is "ifreq"? Why are we using it?
+ *      -  ifreq: a data structure used in Linux to configure network interfaces.
+ *                It's defined in <net/if.h>.
+ *                The structure is used to hold the settings of a network interface
+ *                and to change them using ioctl calls.
  * What is O_RDWR?
  * 
 */
