@@ -39,8 +39,18 @@ gain a comprehensive understanding of things, no gaps!)
     to the packet content.
   - SO `IFF_TAP | IFF_NO_PI` sets the device up as a TAP device which doesn't
     prepend the packet information to the packet content.
-
 ---
-
 ## Overview of the `tun_alloc` function
-Testy
+1. Open the file `/dev/net/tap`. This is a special device file - it's the entry point to the kernel's TUN/TAP functionality. The returned file descriptor `fd` is used in further operations on the TUN/TAP device.
+2. `ifreq` structure is cleared, and then set up for the creation of the TUN/TAP device.
+3. The `ioctl()` function is used to send a command to the kernel, specifically `TUNSETIFF`, which tells the kernel to create a new TUN/TAP device with the given parameters.
+4. If `ioctl()` fails, it closes the file descriptor and returns the error code. If it succeeds, it writes the name of the newly created TUN/TAP device back into the provided buffer and returns the file descriptor for the TUN/TAP device.
+  **Remember:**:
+    - a buffer is just a region of memory storage used to temporarily store data while it is being moved from one place to another.
+    - Buffers are usually used when there is a difference between the rate at which data is received and the rate at which it can be processed, or in the case where data can be created and used at different points in time.
+    - In our context, `char *dev` can be seen as a buffer because it's used to store the name of the network device that's being created. The function `tun_alloc()` is writing to this buffer when it calls `strcpy(dev, interface_request.ifr_name);` copying the name of the TUN/TAP device that was created into the buffer so that it can be used by the calling function.
+---
+## Why are we talking about 'TUN/TAP' devices if tun_alloc just creates a TAP device?
+The (Linux) kernel provides a combined TUN and TAP device driver. The actual type of device that gets created (TUN or TAP) is determined by the flags you set when you call `ioctl()`.
+
+The same function and the same `/dev/net/tap` device file are used for setting up either type of device, apparently, and the actual device type is determined by the flags you provide.

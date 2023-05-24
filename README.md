@@ -39,6 +39,19 @@ the TUN/TAP device delivers ("injects") these packets to the OS network stack
 (i.e. emulating their reception from an external source).
 
 Use cases : VPNs, Virtual-Machine Networking
+---
+Recap:
+- **TUN** devices:
+  - work at the **IP level** (this is on layer 3)
+  - forwarding packets from the network layer (layer 3).
+  - they appear to the system as if they were a **network interface card** (e.g. ethernet card or wifi nic)
+    - **BUT** instead of sending packets to the physical network, they pass them to a **USERSPACE PROGRAM**.
+
+- **TAP** Devices:
+  - Work at the **ethernet level** (layer 2 - datalink layer).
+  - They forward frames from the data link layer.
+  - Useful for creating virtual network bridges.
+    - E.g., you could connect a TAP device with a physical network device (like `eth0`) in a bridge, and then all traffic that comes over the physical device could be read by the program that has the **TAP** device open.
 
 ### What's tunneling?
 "the idea of carrying lower-layer traffic in higher-layer (or equal-layer) packets."
