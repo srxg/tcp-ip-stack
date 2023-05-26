@@ -1,6 +1,6 @@
 /*
 * Device Driver for Universal TUN/TAP
-* See kernel.org/doc/Documentation/networking/tuntap.txt
+* See the kernel docs on tuntap for more info
 */ 
 #include <fcntl.h>
 #include <linux/if.h>
