@@ -52,6 +52,9 @@ Recap:
   - They forward frames from the data link layer.
   - Useful for creating virtual network bridges.
     - E.g., you could connect a TAP device with a physical network device (like `eth0`) in a bridge, and then all traffic that comes over the physical device could be read by the program that has the **TAP** device open.
+  
+  - So, a Userspace program can then hence read packets from the TAP device just like it would read from a regular network 
+
 
 ### What's tunneling?
 "the idea of carrying lower-layer traffic in higher-layer (or equal-layer) packets."
