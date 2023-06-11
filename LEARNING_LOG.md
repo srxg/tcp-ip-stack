@@ -54,3 +54,9 @@ gain a comprehensive understanding of things, no gaps!)
 The (Linux) kernel provides a combined TUN and TAP device driver. The actual type of device that gets created (TUN or TAP) is determined by the flags you set when you call `ioctl()`.
 
 The same function and the same `/dev/net/tap` device file are used for setting up either type of device, apparently, and the actual device type is determined by the flags you provide.
+---
+## Ethernet Frames!
+```ethertype``` either indicates the length of the payload, or the type of the payload - this depends on its value.
+If ```ethertype``` >= 1536, then it contains the type of payload (e.g. ``IPv4``, ``ARP``).
+If the value is ``< 1536`` then it contains the length of the payload.
+
