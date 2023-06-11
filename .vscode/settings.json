@@ -1,0 +1,9 @@
+{
+    "editor.rulers": [
+        40,80,120
+    ],
+    "files.associations": {
+        "cerrno": "c",
+        "if_ether.h": "c"
+    }
+}
