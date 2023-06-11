@@ -3,6 +3,10 @@ This is a Userspace TCP/IP stack (built from Layer 2 up) for Linux made purely f
 I want to learn more about networking at a deeper level and following saminiir's tutorial seemed
 liked a good way to do that.
 
+# REMINDER
+*SEARCH FOR TODO if you've left this for a while and need to know what to do next*
+
+
 ## TUN/TAP devices
 A Linux TAP device will be used to intercept low-level (data link) network traffic from the (Linux) kernel.
 
@@ -71,3 +75,9 @@ Virtual links between computers in different networks can be set up!
 E.g. an company's private network can be accessed from the outside, public network via tunneling
 
 **Tunneling *itself* does not guarantee secure communications**.
+
+### MAC and Ethernet Frame Format
+Media Access Control (MAC) protocol had to be incorporated to organise the data flow when ethernet was half duplex.
+Even now, Carrier Sense, Multiple Access with Collision Detection (CSMA/CD) is required as the MAC method if running an Ethernet interface in half-duplex mode.
+
+The 100BASE-T Ethernet standard used twisted-pair wiring to enable full duplex communication and higher throughput speeds. 
