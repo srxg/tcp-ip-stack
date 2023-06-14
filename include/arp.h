@@ -1,3 +1,6 @@
+#ifndef ARP_H
+#define ARP_H
+
 #include <stdint.h>
 
 struct arp_hdr {
@@ -12,3 +15,4 @@ struct arp_hdr {
     unsigned char data[];
 }__attribute__((packed));
 
+#endif
