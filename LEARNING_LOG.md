@@ -3,11 +3,11 @@ Answering questions I've left myself in comments
 I'll probably end up explaining things I haven't asked myself about (need to
 gain a comprehensive understanding of things, no gaps!)
 
-- What is "```ifreq```"?
+- What is "`ifreq`"?
     - A structure used in Linux to configure network interfaces.
-      It's defined in ```<net/if.h>```.
+      It's defined in `<net/if.h>`.
     - Used to hold the **settings** of a network interface
-        - Used to change such settings via ```ioctl``` calls.
+        - Used to change such settings via `ioctl` calls.
     
     - Why are we using it?
         - Because we're creating and configuring a TUN/TAP Device, which
@@ -15,9 +15,9 @@ gain a comprehensive understanding of things, no gaps!)
 
 ---
 
-- What is ```err```?
-    - You already know it just holds the return value of ```ioctl()```.
-    So, if ```ioctl()``` fails, it returns a negative value. Hence,
+- What is `err`?
+    - You already know it just holds the return value of `ioctl()`.
+    So, if `ioctl()` fails, it returns a negative value. Hence,
     we can use this to understand the type of error that occured.
 
 - What is `O_RDWR`?
@@ -56,7 +56,45 @@ The (Linux) kernel provides a combined TUN and TAP device driver. The actual typ
 The same function and the same `/dev/net/tap` device file are used for setting up either type of device, apparently, and the actual device type is determined by the flags you provide.
 ---
 ## Ethernet Frames!
-```ethertype``` either indicates the length of the payload, or the type of the payload - this depends on its value.
-If ```ethertype``` >= 1536, then it contains the type of payload (e.g. ``IPv4``, ``ARP``).
-If the value is ``< 1536`` then it contains the length of the payload.
+`ethertype` either indicates the length of the payload, or the type of the payload - this depends on its value.
+If `ethertype` >= 1536, then it contains the type of payload (e.g. `IPv4`, `ARP`).
+If the value is `< 1536` then it contains the length of the payload.
 
+
+`__attribute__((packed));` is an IMPLEMENTATION DETAIL
+It instructs gcc *NOT to optimise the struct memory layout for data alignment*
+*with padding bytes.*
+This stems from how we parse the protocol buffer (atm), see below:
+`struct eth_hdr *hdr = (struct eth_hdr*) buf;`
+  - `buf` would be the data buffer with the proper protocol struct
+     (block of data, formatted according to a specific protocol
+     (the protocol's struct)).
+  - here, we're assuming that `buf` contains an ethernet frame, and that frame
+    is being interpreted as an eth_hdr structure.
+
+*Parsing* : analysing a block of data (usually binary data received over a 
+network or read from a file or a device) and *extracting the information it*
+*contains into a structured format* that the software can use.
+
+When you do something like struct eth_hdr *hdr = (struct eth_hdr*) buf;
+you're interpreting the block of data in buf as an eth_hdr structure,
+which involves parsing the data.
+
+A portable, albeit slightly more laborious approach, would be to serialize the
+protocol data manually. This way, the compiler is free to add padding bytes to
+conform better to different processor’s data alignment requirements.
+
+## Parsing and Handling Ethernet frames:
+Overall process is straightforward:
+```
+if (tun_read(buf, BUFLEN) < 0) {
+    print_error("ERR: Read from tun_fd: %s\n", strerror(errno));
+}
+
+struct eth_hdr *hdr = init_eth_hdr(buf);
+
+handle_frame(&netdev, hdr);
+```
+
+- `handle_frame`: looks at the ethertype field and decides what to do
+                  based on the value
