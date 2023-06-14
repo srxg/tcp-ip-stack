@@ -95,6 +95,17 @@ struct eth_hdr *hdr = init_eth_hdr(buf);
 
 handle_frame(&netdev, hdr);
 ```
-
 - `handle_frame`: looks at the ethertype field and decides what to do
                   based on the value
+
+## ARP
+- Used for *dynamically mapping* a **48-bit** ethernet address (**MAC Address**)
+  to a protocol **address** (e.g. IPv4 address).
+  ARP: 48-bit MAC -> protocol address
+- With ARP, loads of different L3 protocols can be used: e.g. *CHAOS* - 16 bit
+  addresses.
+
+Suppose you know the IP of some service or device on your LAN.
+To actually establish communications with that device/service, you need the
+hardware address (MAC). So, *ARP* is used to **broadcast** and **query** the
+network, asking the *owner of the IP Address to report its hardware address*.
