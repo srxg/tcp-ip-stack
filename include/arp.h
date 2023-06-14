@@ -31,3 +31,8 @@ struct arp_ipv4 {
 }__attribute__((packed));
 
 #endif
+
+/**
+ * TODO: arp resolution algorithm (needs "netdev")
+*/
+void arp_incoming();
