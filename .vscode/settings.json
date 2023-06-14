@@ -4,6 +4,8 @@
     ],
     "files.associations": {
         "cerrno": "c",
-        "if_ether.h": "c"
+        "if_ether.h": "c",
+        "stdint.h": "c",
+        "in.h": "c"
     }
 }
