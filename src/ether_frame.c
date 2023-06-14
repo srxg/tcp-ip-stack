@@ -1,6 +1,6 @@
 #include <linux/if_ether.h>
 #include <stdint.h>
-#include <netinet/in.h>  
+#include <netinet/in.h>
 // if_ether.h provides a mapping between ethertypes and their hexadecimal values
 
 /**
